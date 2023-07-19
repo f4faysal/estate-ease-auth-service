@@ -42,21 +42,21 @@ const golobalErrorHandlar: ErrorRequestHandler = (error, req, res, next) => {
     message = error.message;
     errorMessages = error?.message
       ? [
-        {
-          path: '',
-          message: error?.message,
-        },
-      ]
+          {
+            path: '',
+            message: error?.message,
+          },
+        ]
       : [];
   } else if (error instanceof Error) {
     message = error?.message;
     errorMessages = error?.message
       ? [
-        {
-          path: '',
-          message: error?.message,
-        },
-      ]
+          {
+            path: '',
+            message: error?.message,
+          },
+        ]
       : [];
   }
   res.status(statusCode).json({
