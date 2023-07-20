@@ -10,7 +10,7 @@ const createRentUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     // console.log(req.cookies, 'cookies');
     const { rentUser, ...userData } = req.body;
-    const result = await UserService.createStudent(rentUser, userData);
+    const result = await UserService.createRentUser(rentUser, userData);
     sendResponse<IUser>(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -23,7 +23,7 @@ const createRentUser: RequestHandler = catchAsync(
 const createHomeOwner: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { homeOwner, ...userData } = req.body;
-    const result = await UserService.createFaculty(homeOwner, userData);
+    const result = await UserService.createHomeOwner(homeOwner, userData);
     sendResponse<IUser>(res, {
       statusCode: httpStatus.OK,
       success: true,

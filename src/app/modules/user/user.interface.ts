@@ -3,7 +3,7 @@ import { Model, Types } from 'mongoose';
 
 export type IUser = {
   id: string;
-  role: 'Admin' | 'RentUser' | 'homeOwner';
+  role: 'Admin' | 'RentUser' | 'HomeOwner';
   password: string;
   nidNumber: number;
   nidVerified: boolean;
