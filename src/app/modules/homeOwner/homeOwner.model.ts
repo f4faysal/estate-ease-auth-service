@@ -9,21 +9,17 @@ const HomeOwnerSchema = new Schema<IHomeOwner, HomeOwnerModel>(
       unique: true,
     },
     name: {
-      type: {
-        firstName: {
-          type: String,
-          required: true,
-        },
-        lastName: {
-          type: String,
-          required: true,
-        },
-        middleName: {
-          type: String,
-          required: false,
-        },
+      firstName: {
+        type: String,
+        require: true,
       },
-      required: true,
+      middleName: {
+        type: String,
+      },
+      lastName: {
+        type: String,
+        require: true,
+      },
     },
     dateOfBirth: {
       type: String,

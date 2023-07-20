@@ -10,18 +10,16 @@ export const rentUserSchema = new Schema<IRentUser>(
       unique: true,
     },
     name: {
-      type: {
-        firstName: {
-          type: String,
-          require: true,
-        },
-        middleName: {
-          type: String,
-        },
-        lastName: {
-          type: String,
-          require: true,
-        },
+      firstName: {
+        type: String,
+        require: true,
+      },
+      middleName: {
+        type: String,
+      },
+      lastName: {
+        type: String,
+        require: true,
       },
     },
     dateOfBirth: {

@@ -24,6 +24,7 @@ const UserSchema = new Schema<IUser, UserModel>(
     nidNumber: {
       type: Number,
       required: true,
+      unique: true,
     },
     nidVerified: {
       type: Boolean,

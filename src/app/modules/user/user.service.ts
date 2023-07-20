@@ -36,7 +36,7 @@ const createRentUser = async (
     rentUser.id = id;
     console.log('===>', id);
     //array
-    const newRentUser = await RentUser.create([rentUser]);
+    const newRentUser = await RentUser.create([rentUser], { session });
 
     if (!newRentUser.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create student');
@@ -45,7 +45,7 @@ const createRentUser = async (
     //set student -->  _id into user.student
     user.rentUser = newRentUser[0]._id;
 
-    const newUser = await User.create([user]);
+    const newUser = await User.create([user], { session });
 
     if (!newUser.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create user');
