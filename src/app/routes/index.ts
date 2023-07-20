@@ -1,11 +1,11 @@
 import express from 'express';
-import { AdminRoutes } from '../modules/admin/admin.route';
+import { UserRoutes } from '../modules/user/user.route';
 
 const router = express.Router();
 const moduleRutes = [
   {
-    path: '/admins',
-    route: AdminRoutes,
+    path: '/users',
+    route: UserRoutes,
   },
 ];
 moduleRutes.forEach(route => router.use(route.path, route.route));
