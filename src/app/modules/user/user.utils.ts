@@ -1,11 +1,8 @@
-// import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
 import { User } from './user.model';
 
 export const findLastRentUserId = async (): Promise<string | undefined> => {
   const lastlastRentUser = await User.findOne(
-    {
-      role: 'rentUser',
-    },
+    { role: 'RentUser' },
     { id: 1, _id: 0 }
   )
     .sort({
@@ -21,12 +18,13 @@ export const generateRentUserId = async (): Promise<string> => {
     (await findLastRentUserId()) || (0).toString().padStart(5, '0');
   let incrementedId = (parseInt(currentId) + 1).toString().padStart(5, '0');
   incrementedId = `RU-${incrementedId}`;
+  console.log(incrementedId);
   return incrementedId;
 };
 
 export const findLastHomeOwnerId = async (): Promise<string | undefined> => {
   const lastHomeOwner = await User.findOne(
-    { role: 'faculty' },
+    { role: 'HomeOwner' },
     { id: 1, _id: 0 }
   )
     .sort({
@@ -54,7 +52,6 @@ export const findLastAdminId = async (): Promise<string | undefined> => {
 
   return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
 };
-
 export const generateAdminId = async (): Promise<string> => {
   const currentId =
     (await findLastAdminId()) || (0).toString().padStart(5, '0');

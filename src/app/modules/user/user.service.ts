@@ -4,6 +4,7 @@ import config from '../../../config/index';
 import ApiError from '../../../errors/ApiError';
 import { Admin } from '../admin/admin.model';
 import { HomeOwner } from '../homeOwner/homeOwner.model';
+import { IRentUser } from '../rentUser/rentUser.interface';
 import { RentUser } from '../rentUser/rentUser.model';
 import { IUser } from './user.interface';
 import { User } from './user.model';
@@ -14,7 +15,7 @@ import {
 } from './user.utils';
 
 const createRentUser = async (
-  rentUser: IUser,
+  rentUser: IRentUser,
   user: IUser
 ): Promise<IUser | null> => {
   // default password
@@ -30,23 +31,21 @@ const createRentUser = async (
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-
     const id = await generateRentUserId();
-
     user.id = id;
     rentUser.id = id;
-
+    console.log('===>', id);
     //array
-    const newRentUser = await RentUser.create([rentUser], { session });
+    const newRentUser = await RentUser.create([rentUser]);
 
     if (!newRentUser.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create student');
     }
-
+    console.log('---->', newRentUser);
     //set student -->  _id into user.student
     user.rentUser = newRentUser[0]._id;
 
-    const newUser = await User.create([user], { session });
+    const newUser = await User.create([user]);
 
     if (!newUser.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create user');
@@ -62,14 +61,9 @@ const createRentUser = async (
   }
 
   if (newUserAllData) {
-    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
-      path: 'student',
-      populate: [
-        {
-          path: 'academicSemester',
-        },
-      ],
-    });
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate(
+      'rentUser'
+    );
   }
 
   return newUserAllData;

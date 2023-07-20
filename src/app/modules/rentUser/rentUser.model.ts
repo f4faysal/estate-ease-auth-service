@@ -65,9 +65,6 @@ export const rentUserSchema = new Schema<IRentUser>(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-    },
   }
 );
 
