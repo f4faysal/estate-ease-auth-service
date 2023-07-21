@@ -11,7 +11,7 @@ import { IAdmin, IAdminFilters } from './admin.interface';
 import { Admin } from './admin.model';
 
 const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
-  const result = await Admin.findOne({ id }).populate('managementDepartment');
+  const result = await Admin.findOne({ id });
   return result;
 };
 
@@ -58,7 +58,7 @@ const getAllAdmins = async (
     andConditions.length > 0 ? { $and: andConditions } : {};
 
   const result = await Admin.find(whereConditions)
-    .populate('managementDepartment')
+    // .populate('managementDepartment')
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
@@ -120,7 +120,7 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
       throw new ApiError(404, 'Failed to delete student');
     }
     //delete user
-    await User.deleteOne({ id });
+    await User.deleteOne({ id }, { session });
     session.commitTransaction();
     session.endSession();
 

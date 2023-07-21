@@ -81,13 +81,14 @@ const createHomeOwner = async (
   // set role
   user.role = 'HomeOwner';
 
-  // generate faculty id
+  // generate HomeOwner id
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
 
     const id = await generateHomeOwnerId();
+    console.log(id);
     user.id = id;
     homeOwner.id = id;
 
@@ -114,18 +115,23 @@ const createHomeOwner = async (
     throw error;
   }
 
+  // if (newUserAllData) {
+  //   newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
+  //     path: 'faculty',
+  //     populate: [
+  //       {
+  //         path: 'academicDepartment',
+  //       },
+  //       {
+  //         path: 'academicFaculty',
+  //       },
+  //     ],
+  //   });
+  // }
   if (newUserAllData) {
-    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
-      path: 'faculty',
-      populate: [
-        {
-          path: 'academicDepartment',
-        },
-        {
-          path: 'academicFaculty',
-        },
-      ],
-    });
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate(
+      'homeOwner'
+    );
   }
 
   return newUserAllData;
@@ -150,6 +156,7 @@ const createAdmin = async (
     session.startTransaction();
 
     const id = await generateAdminId();
+    console.log(id);
     user.id = id;
     admin.id = id;
 
@@ -177,14 +184,9 @@ const createAdmin = async (
   }
 
   if (newUserAllData) {
-    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
-      path: 'admin',
-      populate: [
-        {
-          path: 'managementDepartment',
-        },
-      ],
-    });
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate(
+      'admin'
+    );
   }
 
   return newUserAllData;

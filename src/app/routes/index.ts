@@ -1,4 +1,5 @@
 import express from 'express';
+import { AdminRoutes } from '../modules/admin/admin.route';
 import { HomeOwnerRoutes } from '../modules/homeOwner/homeOwner.route';
 import { RentUserRoutes } from '../modules/rentUser/rentUser.route';
 import { UserRoutes } from '../modules/user/user.route';
@@ -16,6 +17,10 @@ const moduleRutes = [
   {
     path: '/home-owner',
     route: HomeOwnerRoutes,
+  },
+  {
+    path: '/admin',
+    route: AdminRoutes,
   },
 ];
 moduleRutes.forEach(route => router.use(route.path, route.route));

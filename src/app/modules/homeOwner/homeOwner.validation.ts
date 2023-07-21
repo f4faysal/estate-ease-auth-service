@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const updateFacultyZodSchema = z.object({
+const updateHomeOwnerZodSchema = z.object({
   body: z.object({
     name: z.object({
       firstName: z.string().optional(),
@@ -15,11 +15,10 @@ const updateFacultyZodSchema = z.object({
     emergencyContactNo: z.string().optional(),
     presentAddress: z.string().optional(),
     permanentAddress: z.string().optional(),
-    department: z.string().optional(),
-    designation: z.string().optional(),
+    profileImage: z.string().optional(),
   }),
 });
 
-export const FacultyValidation = {
-  updateFacultyZodSchema,
+export const HomeOwnerValidation = {
+  updateHomeOwnerZodSchema,
 };
