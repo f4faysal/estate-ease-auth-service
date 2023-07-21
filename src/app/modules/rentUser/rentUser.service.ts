@@ -51,10 +51,6 @@ const getAllRentUsers = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
-
-  /** .populate('academicSemester')
-  .populate('academicDepartment')
-  .populate('academicFaculty') */
   const total = await RentUser.countDocuments(whereConditions);
 
   return {
@@ -115,29 +111,36 @@ const updateRentUser = async (
 };
 
 const deleteRentUser = async (id: string): Promise<IRentUser | null> => {
-  // check if the faculty is exist
-  const isExist = await RentUser.findOne({ id });
-
-  if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'RentUser not found !');
-  }
-
   const session = await mongoose.startSession();
+  session.startTransaction();
 
   try {
-    session.startTransaction();
-    //delete RentUser first
-    const rentUser = await RentUser.findOneAndDelete({ id }, { session });
+    // check if the RentUser is exist
+    const rentUser = await RentUser.findOne({ id });
+
     if (!rentUser) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'RentUser not found !');
+    }
+
+    // delete RentUser first
+    const deletedRentUser = await RentUser.findOneAndDelete(
+      { id },
+      { session }
+    );
+    if (!deletedRentUser) {
       throw new ApiError(httpStatus.OK, 'Failed to delete RentUser');
     }
-    //delete user
-    await User.deleteOne({ id });
-    session.commitTransaction();
+
+    // delete user
+    await User.deleteOne({ id }, { session });
+
+    await session.commitTransaction();
     session.endSession();
-    return rentUser;
+
+    return deletedRentUser;
   } catch (error) {
-    session.abortTransaction();
+    await session.abortTransaction();
+    session.endSession();
     throw error;
   }
 };

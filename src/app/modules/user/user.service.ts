@@ -88,14 +88,14 @@ const createHomeOwner = async (
     session.startTransaction();
 
     const id = await generateHomeOwnerId();
-    console.log(id);
+
     user.id = id;
     homeOwner.id = id;
 
     const newHomeOwner = await HomeOwner.create([homeOwner], { session });
 
     if (!newHomeOwner.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty ');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create HomeOwner ');
     }
 
     user.homeOwner = newHomeOwner[0]._id;
@@ -103,7 +103,7 @@ const createHomeOwner = async (
     const newUser = await User.create([user], { session });
 
     if (!newUser.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create HomeOwner');
     }
     newUserAllData = newUser[0];
 
@@ -117,13 +117,13 @@ const createHomeOwner = async (
 
   // if (newUserAllData) {
   //   newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
-  //     path: 'faculty',
+  //     path: 'HomeOwner',
   //     populate: [
   //       {
   //         path: 'academicDepartment',
   //       },
   //       {
-  //         path: 'academicFaculty',
+  //         path: 'academicHomeOwner',
   //       },
   //     ],
   //   });
@@ -149,21 +149,21 @@ const createAdmin = async (
   // set role
   user.role = 'Admin';
 
-  // generate faculty id
+  // generate Admin id
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
 
     const id = await generateAdminId();
-    console.log(id);
+
     user.id = id;
     admin.id = id;
 
     const newAdmin = await Admin.create([admin], { session });
 
     if (!newAdmin.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty ');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create Admin ');
     }
 
     user.admin = newAdmin[0]._id;

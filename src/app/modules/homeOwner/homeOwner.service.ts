@@ -51,12 +51,7 @@ const getAllHomeOwners = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
-
-  /** .populate('academicSemester')
-  .populate('academicDepartment')
-  .populate('academicFaculty') */
   const total = await HomeOwner.countDocuments(whereConditions);
-
   return {
     meta: {
       page,
@@ -118,31 +113,67 @@ const updateHomeOwner = async (
   return result;
 };
 
+// const deleteHomeOwner = async (id: string): Promise<IHomeOwner | null> => {
+
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
+
+//   try {
+
+//     // check if the HomeOwner is exist
+//     const isExist = await HomeOwner.findOne({ id });
+
+//     if (!isExist) {
+//       throw new ApiError(httpStatus.NOT_FOUND, 'HomeOwner not found !');
+//     }
+
+//     //delete HomeOwner first
+//     const homeOwner = await HomeOwner.findOneAndDelete({ id }, { session });
+//     if (!homeOwner) {
+//       throw new ApiError(httpStatus.OK, 'Failed to delete HomeOwner');
+//     }
+//     //delete user
+//     await User.deleteOne({ id });
+//     session.commitTransaction();
+//     session.endSession();
+//     return homeOwner;
+//   } catch (error) {
+//     session.abortTransaction();
+//     throw error;
+//   }
+// };
+
 const deleteHomeOwner = async (id: string): Promise<IHomeOwner | null> => {
-  // check if the faculty is exist
-  const isExist = await HomeOwner.findOne({ id });
-
-  if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'HomeOwner not found !');
-  }
-
   const session = await mongoose.startSession();
+  session.startTransaction();
 
   try {
-    session.startTransaction();
-    //delete HomeOwner first
+    // check if the HomeOwner exists
+    const isExist = await HomeOwner.findOne({ id });
+
+    if (!isExist) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'HomeOwner not found!');
+    }
+
+    // delete HomeOwner first
     const homeOwner = await HomeOwner.findOneAndDelete({ id }, { session });
     if (!homeOwner) {
       throw new ApiError(httpStatus.OK, 'Failed to delete HomeOwner');
     }
-    //delete user
+
+    // delete user
     await User.deleteOne({ id });
-    session.commitTransaction();
-    session.endSession();
+
+    // Commit the transaction after all operations are successful
+    await session.commitTransaction();
     return homeOwner;
   } catch (error) {
-    session.abortTransaction();
+    // If there is an error, abort the transaction
+    await session.abortTransaction();
     throw error;
+  } finally {
+    // Finally, end the session
+    session.endSession();
   }
 };
 

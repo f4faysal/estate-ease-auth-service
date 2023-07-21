@@ -44,13 +44,13 @@ export const generateHomeOwnerId = async (): Promise<string> => {
   return incrementedId;
 };
 export const findLastAdminId = async (): Promise<string | undefined> => {
-  const lastFaculty = await User.findOne({ role: 'Admin' }, { id: 1, _id: 0 })
+  const lastAdmin = await User.findOne({ role: 'Admin' }, { id: 1, _id: 0 })
     .sort({
       createdAt: -1,
     })
     .lean();
 
-  return lastFaculty?.id ? lastFaculty.id.substring(3) : undefined;
+  return lastAdmin?.id ? lastAdmin.id.substring(3) : undefined;
 };
 export const generateAdminId = async (): Promise<string> => {
   const currentId =

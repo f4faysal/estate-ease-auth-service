@@ -103,31 +103,36 @@ const updateAdmin = async (
 };
 
 const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
-  // check if the faculty is exist
-  const isExist = await Admin.findOne({ id });
-
-  if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found !');
-  }
-
   const session = await mongoose.startSession();
+  session.startTransaction();
 
   try {
-    session.startTransaction();
-    //delete student first
-    const student = await Admin.findOneAndDelete({ id }, { session });
-    if (!student) {
-      throw new ApiError(404, 'Failed to delete student');
-    }
-    //delete user
-    await User.deleteOne({ id }, { session });
-    session.commitTransaction();
-    session.endSession();
+    // check if the Admin exists
+    const isExist = await Admin.findOne({ id });
 
-    return student;
+    if (!isExist) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found!');
+    }
+
+    // delete Admin first
+    const admin = await Admin.findOneAndDelete({ id }, { session });
+    if (!admin) {
+      throw new ApiError(404, 'Failed to delete Admin');
+    }
+
+    // delete user
+    await User.deleteOne({ id }, { session });
+
+    // Commit the transaction after all operations are successful
+    await session.commitTransaction();
+    return admin;
   } catch (error) {
-    session.abortTransaction();
+    // If there is an error, abort the transaction
+    await session.abortTransaction();
     throw error;
+  } finally {
+    // Finally, end the session
+    session.endSession();
   }
 };
 
