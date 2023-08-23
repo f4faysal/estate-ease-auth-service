@@ -12,7 +12,7 @@ Welcome to Estate Ease, a platform designed to simplify property rental manageme
 
 ## Navigating the Contents
 
-- **Live Website**: Discover the full range of features and capabilities of Estate Ease by visiting our [Live Website](https://www.estateease.vercel.app).
+- **Live Website**: Discover the full range of features and capabilities of Estate Ease by visiting our [Live Website](https://estateease.vercel.app/).
 
 - **Client Service Repository**: Dive into the Estate Ease Auth Service codebase on GitHub for all things authentication-related: [Client Service Git Repository](https://github.com/f4faysal/estate-ease-client-service).
 
