@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { locationsEnaum, statusEnaum } from './homeInfo.constant';
+import { locationsEnaum, residential, statusEnaum } from './homeInfo.constant';
 import { HomeInfoModel, IHomeInfo } from './homeInfo.interface';
 
 // Define the schema for IHomeFeatures
@@ -80,7 +80,12 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
       images: [{ type: String }],
       homeType: { type: String, required: true },
       homeSize: { type: Number, required: true },
-      Location: {
+      residential: {
+        type: String,
+        enum: residential,
+        required: true,
+      },
+      location: {
         type: String,
         enum: locationsEnaum,
         required: true,

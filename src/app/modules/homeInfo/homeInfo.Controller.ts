@@ -44,8 +44,12 @@
 
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import { default as sendResponce } from '../../../shared/sendResponse';
+import { HomeFilterableFields } from './homeInfo.constant';
+import { IHomeInfo } from './homeInfo.interface';
 import { HomeInfoService } from './homeInfo.service';
 
 const insertInToHomeInfo = catchAsync(async (req: Request, res: Response) => {
@@ -62,12 +66,18 @@ const insertInToHomeInfo = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllHomeInfo = catchAsync(async (req: Request, res: Response) => {
-  const result = await HomeInfoService.getAllHomeInfo();
-  sendResponce(res, {
+  const filters = pick(req.query, HomeFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await HomeInfoService.getAllHomeInfo(
+    filters,
+    paginationOptions
+  );
+  sendResponce<IHomeInfo[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'HomeInfo retrieved successfully !',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 

@@ -28,9 +28,18 @@ export type IHomeDetails = {
   address: string;
   description: string;
   images: string[];
-  homeType: string;
   homeSize: number;
-  Location:
+  homeType: string;
+  residential:
+    | 'Apartment'
+    | 'House'
+    | 'Duplex'
+    | 'Condo'
+    | 'Townhouse'
+    | 'Villa'
+    | 'Penthouse'
+    | 'Studio';
+  location:
     | 'Demra'
     | 'Dhaka Cantt.'
     | 'Dhamrai'
@@ -86,10 +95,8 @@ export type HomeInfoModel = Model<IHomeInfo, Record<string, unknown>>;
 
 export type IHomeFilters = {
   searchTerm?: string;
-  id?: string;
-  email?: string;
-  contactNo?: string;
-  emergencyContactNo?: string;
-  gender?: 'male' | 'female';
-  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  location?: string;
+  residential?: string;
+  price?: number;
+  homeSize?: number;
 };

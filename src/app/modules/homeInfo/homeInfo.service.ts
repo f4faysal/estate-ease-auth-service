@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import httpStatus from 'http-status';
+import { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import { User } from '../user/user.model';
-import { IHomeInfo } from './homeInfo.interface';
+import { IHomeFilters, IHomeInfo } from './homeInfo.interface';
 import { HomeInfo } from './homeInfo.model';
 
 // const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
@@ -206,6 +210,9 @@ const insertInToHomeInfo = async (
 
   payload.homeOwnerId = userId;
   payload.homeStatus = 'pending';
+  payload.home.homeSize = payload.home.homeSizeDetails.totalSQFT
+    ? payload.home.homeSizeDetails.totalSQFT
+    : 0;
   payload.ownerBehaviourCommonQuestion = [
     {
       question: 'Owner behavior?',
@@ -233,10 +240,146 @@ const insertInToHomeInfo = async (
   return result;
 };
 
-const getAllHomeInfo = async (): Promise<IHomeInfo[]> => {
-  const result = await HomeInfo.find();
-  return result;
+const getAllHomeInfo = async (
+  filters: IHomeFilters,
+  paginationOptions: IPaginationOptions
+): Promise<IGenericResponse<IHomeInfo[]>> => {
+  const { searchTerm, ...filtersData } = filters;
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
+  console.log(filtersData, searchTerm);
+  const andConditions = [];
+
+  // Search needs $or for searching in specified fields
+  // if (searchTerm) {
+  //   andConditions.push({
+  //     $or: homeSearchableFields.map(field => ({
+  //       [field]: {
+  //         $regex: searchTerm,
+  //         $options: 'i',
+  //       },
+  //     })),
+  //   });
+  // }
+
+  if (searchTerm) {
+    const searchableFields = [
+      'home.title',
+      'home.tageLine',
+      'home.tages',
+      'home.description',
+      'home.location',
+      'home.residential',
+      // Add other fields you want to search here
+    ];
+
+    andConditions.push({
+      $or: searchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+
+  // Filters needs $and to fulfill all the conditions
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [`home.${field}`]: value,
+      })),
+    });
+  }
+
+  console.log(andConditions);
+  // Dynamic sort needs  fields to  do sorting
+  const sortConditions: { [key: string]: SortOrder } = {};
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  // If there is no condition , put {} to give all data
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const result = await HomeInfo.find(whereConditions)
+    .populate('homeOwnerId')
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await HomeInfo.countDocuments(whereConditions);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
+
+// const getAllAdmins = async (
+//     filters: IAdminFilters,
+//     paginationOptions: IPaginationOptions
+//   ): Promise<IGenericResponse<IAdmin[]>> => {
+//     // Extract searchTerm to implement search query
+//     const { searchTerm, ...filtersData } = filters;
+//     const { page, limit, skip, sortBy, sortOrder } =
+//       paginationHelpers.calculatePagination(paginationOptions);
+
+//     const andConditions = [];
+
+//     // Search needs $or for searching in specified fields
+//     if (searchTerm) {
+//       andConditions.push({
+//         $or: adminSearchableFields.map(field => ({
+//           [field]: {
+//             $regex: searchTerm,
+//             $options: 'i',
+//           },
+//         })),
+//       });
+//     }
+
+//     // Filters needs $and to fullfill all the conditions
+//     if (Object.keys(filtersData).length) {
+//       andConditions.push({
+//         $and: Object.entries(filtersData).map(([field, value]) => ({
+//           [field]: value,
+//         })),
+//       });
+//     }
+
+//     // Dynamic sort needs  fields to  do sorting
+//     const sortConditions: { [key: string]: SortOrder } = {};
+//     if (sortBy && sortOrder) {
+//       sortConditions[sortBy] = sortOrder;
+//     }
+
+//     // If there is no condition , put {} to give all data
+//     const whereConditions =
+//       andConditions.length > 0 ? { $and: andConditions } : {};
+
+//     const result = await Admin.find(whereConditions)
+//       // .populate('managementDepartment')
+//       .sort(sortConditions)
+//       .skip(skip)
+//       .limit(limit);
+
+//     const total = await Admin.countDocuments(whereConditions);
+
+//     return {
+//       meta: {
+//         page,
+//         limit,
+//         total,
+//       },
+//       data: result,
+//     };
+//   };
 
 export const HomeInfoService = {
   insertInToHomeInfo,
