@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-export type HomeFeatures = {
+export type IHomeFeatures = {
   hasGarden?: boolean;
   hasGarage?: boolean;
   hasInternet?: boolean;
@@ -9,35 +9,82 @@ export type HomeFeatures = {
   hasAirConditioning?: boolean;
 };
 
-export type HomeSige = {
+export type IHomeSige = {
   numberOfRooms?: number;
   numberOfBathrooms?: number;
+  numberOfBalconies?: number;
+  numberOfWindos?: number;
   numberOfFloors?: number;
   sizePerUnit?: string;
   totalSQFT?: number;
 };
 
-export type HomeDetails = {
+export type IHomeDetails = {
   title: string;
+  tageLine: string;
+  tages?: string[];
   price: number;
+  offerPrice?: number;
   address: string;
   description: string;
   images: string[];
   homeType: string;
   homeSize: number;
-  location: string;
-  homeSizeDetails: HomeSige;
-  features: HomeFeatures;
+  Location:
+    | 'Demra'
+    | 'Dhaka Cantt.'
+    | 'Dhamrai'
+    | 'Dhanmondi'
+    | 'Gulshan'
+    | 'Jatrabari'
+    | 'Joypara'
+    | 'Keraniganj'
+    | 'Khilgaon'
+    | 'Khilkhet'
+    | 'Lalbag'
+    | 'Mirpur'
+    | 'Mohammadpur'
+    | 'Motijheel'
+    | 'Nawabganj'
+    | 'New Market'
+    | 'Palton'
+    | 'Ramna'
+    | 'Sabujbag'
+    | 'Savar'
+    | 'Sutrapur'
+    | 'Tejgaon'
+    | 'Tejgaon Industrial Area'
+    | 'Uttara';
+  homeSizeDetails: IHomeSige;
+  features: IHomeFeatures;
+};
+
+export type IReview = {
+  rating: number;
+  review: string[];
+};
+
+export type IQuestion = {
+  question: string;
+  answers: string[];
 };
 
 export type IHomeInfo = {
   homeOwnerId: string;
-  home: HomeDetails;
+  homeStatus:
+    | 'available'
+    | 'rentedOut'
+    | 'rentedOutApproval'
+    | 'pending'
+    | 'unavailableApproval';
+  home: IHomeDetails;
+  homeReview: IReview;
+  ownerBehaviourCommonQuestion: IQuestion[];
 };
 
 export type HomeInfoModel = Model<IHomeInfo, Record<string, unknown>>;
 
-export type IAdminFilters = {
+export type IHomeFilters = {
   searchTerm?: string;
   id?: string;
   email?: string;
