@@ -135,8 +135,16 @@ const changePassword = async (
   isUserExist.save();
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const myProfile = async (user: JwtPayload | null): Promise<any> => {
+  const result = await User.find({ id: user?.userId });
+
+  return result;
+};
+
 export const AuthService = {
   loginUser,
   refreshToken,
   changePassword,
+  myProfile,
 };
