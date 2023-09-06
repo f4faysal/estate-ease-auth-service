@@ -17,3 +17,37 @@ export const adminSearchableFields = [
   'name.lastName',
   'name.middleName',
 ];
+
+export const locationsEnaum = [
+  'Demra',
+  'Dhaka Cantt.',
+  'Dhamrai',
+  'Dhanmondi',
+  'Gulshan',
+  'Jatrabari',
+  'Joypara',
+  'Keraniganj',
+  'Khilgaon',
+  'Khilkhet',
+  'Lalbag',
+  'Mirpur',
+  'Mohammadpur',
+  'Motijheel',
+  'Nawabganj',
+  'New Market',
+  'Palton',
+  'Ramna',
+  'Sabujbag',
+  'Savar',
+  'Sutrapur',
+  'Tejgaon',
+  'Tejgaon Industrial Area',
+  'Uttara',
+];
+export const statusEnaum = [
+  'available',
+  'rentedOut',
+  'rentedOutApproval',
+  'pending',
+  'unavailableApproval',
+];
