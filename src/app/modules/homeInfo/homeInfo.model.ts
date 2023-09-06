@@ -61,15 +61,15 @@ import { HomeInfoModel, IHomeInfo } from './homeInfo.interface';
 //   features: { type: HomeFeaturesSchema },
 // });
 
-const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>({
-  homeOwnerId: { type: String, required: true },
-  homeStatus: {
-    type: String,
-    enum: statusEnaum,
-    required: true,
-  },
-  home: {
-    type: {
+const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
+  {
+    homeOwnerId: { type: String, required: true },
+    homeStatus: {
+      type: String,
+      enum: statusEnaum,
+      required: true,
+    },
+    home: {
       title: { type: String, required: true },
       tageLine: { type: String, required: true },
       tages: [{ type: String }],
@@ -86,43 +86,35 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>({
         required: true,
       },
       homeSizeDetails: {
-        type: {
-          numberOfRooms: { type: Number },
-          numberOfBathrooms: { type: Number },
-          numberOfBalconies: { type: Number },
-          numberOfWindos: { type: Number },
-          numberOfFloors: { type: Number },
-          sizePerUnit: { type: String },
-          totalSQFT: { type: Number },
-        },
+        numberOfRooms: { type: Number },
+        numberOfBathrooms: { type: Number },
+        numberOfBalconies: { type: Number },
+        numberOfWindos: { type: Number },
+        numberOfFloors: { type: Number },
+        sizePerUnit: { type: String },
+        totalSQFT: { type: Number },
       },
       features: {
-        type: {
-          hasGarden: { type: Boolean },
-          hasGarage: { type: Boolean },
-          hasInternet: { type: Boolean },
-          hasSecurity: { type: Boolean },
-          hasCleaning: { type: Boolean },
-          hasAirConditioning: { type: Boolean },
-        },
+        hasGarden: { type: Boolean },
+        hasGarage: { type: Boolean },
+        hasInternet: { type: Boolean },
+        hasSecurity: { type: Boolean },
+        hasCleaning: { type: Boolean },
+        hasAirConditioning: { type: Boolean },
       },
     },
-    required: true,
-  },
-  homeReview: {
-    type: {
+    homeReview: {
       rating: { type: Number, required: true },
       review: [{ type: String }],
     },
+    ownerBehaviourCommonQuestion: [],
   },
-  ownerBehaviourCommonQuestion: [
-    {
-      type: {
-        question: { type: String, required: true },
-        answers: [{ type: String }],
-      },
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
     },
-  ],
-});
+  }
+);
 
 export const HomeInfo = model<IHomeInfo, HomeInfoModel>('HomeInfo', HomeSchema);

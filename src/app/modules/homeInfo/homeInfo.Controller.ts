@@ -49,16 +49,29 @@ import { default as sendResponce } from '../../../shared/sendResponse';
 import { HomeInfoService } from './homeInfo.service';
 
 const insertInToHomeInfo = catchAsync(async (req: Request, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { userId }: any = req.user;
   const { ...HomeInfoData } = req.body;
-  const result = await HomeInfoService.insertInToHomeInfo(HomeInfoData);
+  const result = await HomeInfoService.insertInToHomeInfo(HomeInfoData, userId);
   sendResponce(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Semester is created successfully !',
+    message: 'HomeInfo is created successfully !',
+    data: result,
+  });
+});
+
+const getAllHomeInfo = catchAsync(async (req: Request, res: Response) => {
+  const result = await HomeInfoService.getAllHomeInfo();
+  sendResponce(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'HomeInfo retrieved successfully !',
     data: result,
   });
 });
 
 export const HomeInfoController = {
   insertInToHomeInfo,
+  getAllHomeInfo,
 };

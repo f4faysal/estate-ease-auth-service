@@ -1,4 +1,6 @@
 import express from 'express';
+import { ENUM_USER_ROLE } from '../../../enums/user';
+import auth from '../../middlewares/auth';
 import { HomeInfoController } from './homeInfo.Controller';
 
 const router = express.Router();
@@ -21,6 +23,11 @@ const router = express.Router();
 //   AdminController.deleteAdmin
 // );
 
-router.post('/', HomeInfoController.insertInToHomeInfo);
+router.post(
+  '/',
+  auth(ENUM_USER_ROLE.HOMEOWNER),
+  HomeInfoController.insertInToHomeInfo
+);
+router.get('/', HomeInfoController.getAllHomeInfo);
 
 export const HomeInfoRoutes = router;

@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
+import { User } from '../user/user.model';
 import { IHomeInfo } from './homeInfo.interface';
 import { HomeInfo } from './homeInfo.model';
 
@@ -184,11 +187,58 @@ import { HomeInfo } from './homeInfo.model';
 //   return newUserAllData;
 // };
 
-const insertInToHomeInfo = async (payload: IHomeInfo): Promise<IHomeInfo> => {
+const insertInToHomeInfo = async (
+  payload: IHomeInfo,
+  userId: string
+): Promise<IHomeInfo> => {
+  const isUserExist = await User.findOne({ id: userId });
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found !');
+  }
+
+  if (!isUserExist.nidVerified) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      'Please verify your NID first ! Contact with admin for more info.'
+    );
+  }
+
+  payload.homeOwnerId = userId;
+  payload.homeStatus = 'pending';
+  payload.ownerBehaviourCommonQuestion = [
+    {
+      question: 'Owner behavior?',
+      answers: ['Good', 'Average', 'Poor'],
+    },
+    {
+      question: 'The owner provides the information when you rent, is it true?',
+      answers: ['No', 'Yes'],
+    },
+    {
+      question: 'Is there any electricity or gas problem?',
+      answers: ['Yes', 'No'],
+    },
+    {
+      question: 'Does the owner create problems when guests come?',
+      answers: ['No', 'Yes'],
+    },
+  ];
+  payload.homeReview = {
+    rating: 0,
+    review: [],
+  };
+
   const result = await HomeInfo.create(payload);
+  return result;
+};
+
+const getAllHomeInfo = async (): Promise<IHomeInfo[]> => {
+  const result = await HomeInfo.find();
   return result;
 };
 
 export const HomeInfoService = {
   insertInToHomeInfo,
+  getAllHomeInfo,
 };
