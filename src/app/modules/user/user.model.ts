@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 
 import bcrypt from 'bcrypt';
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 import config from '../../../config';
 import { IUser, UserModel } from './user.interface';
 
@@ -35,15 +35,15 @@ const UserSchema = new Schema<IUser, UserModel>(
       default: true,
     },
     homeOwner: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: 'HomeOwner',
     },
     rentUser: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: 'RentUser',
     },
     admin: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: 'Admin',
     },
   },

@@ -38,4 +38,4 @@ const RentNowSchema = new Schema<IRentNow, RentNowModel>(
   }
 );
 
-export const RentNow = model<IRentNow, RentNowModel>('HomeInfo', RentNowSchema);
+export const RentNow = model<IRentNow, RentNowModel>('RentNow', RentNowSchema);
