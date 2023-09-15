@@ -5,6 +5,7 @@ import { HomeInfoRoutes } from '../modules/homeInfo/homeInfo.route';
 import { HomeOwnerRoutes } from '../modules/homeOwner/homeOwner.route';
 import { RentUserRoutes } from '../modules/rentUser/rentUser.route';
 import { UserRoutes } from '../modules/user/user.route';
+import { RentNowRoutes } from '../modules/rentNow/rentNow.route';
 
 const router = express.Router();
 const moduleRutes = [
@@ -31,6 +32,10 @@ const moduleRutes = [
   {
     path: '/home-info',
     route: HomeInfoRoutes,
+  },
+  {
+    path: '/rent-now',
+    route: RentNowRoutes,
   },
 ];
 moduleRutes.forEach(route => router.use(route.path, route.route));
