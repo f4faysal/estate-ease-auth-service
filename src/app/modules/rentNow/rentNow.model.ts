@@ -16,6 +16,11 @@ const RentNowSchema = new Schema<IRentNow, RentNowModel>(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ['pending', 'accepted', 'rejected'],
+      default: 'pending',
+    },
     offerPrice: {
       type: Number,
       required: true,

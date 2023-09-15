@@ -4,6 +4,7 @@ export type IRentNow = {
   homeId: ObjectId;
   userId: ObjectId;
   offerMessage: string;
+  status: 'pending' | 'accepted' | 'rejected';
   offerPrice: number;
   familyMembers: number;
   createdAt: Date;
