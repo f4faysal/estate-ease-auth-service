@@ -11,7 +11,16 @@ router.post(
   validateRequest(AuthValidation.loginZodSchema),
   AuthController.loginUser
 );
-router.get('/my-profile', AuthController.myProfile);
+router.get(
+  '/my-profile',
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.HOMEOWNER,
+    ENUM_USER_ROLE.RENTUSER,
+    ENUM_USER_ROLE.SUPER_ADMIN
+  ),
+  AuthController.myProfile
+);
 
 router.post(
   '/refresh-token',

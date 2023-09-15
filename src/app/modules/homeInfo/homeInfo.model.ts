@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { locationsEnaum, residential, statusEnaum } from './homeInfo.constant';
 import { HomeInfoModel, IHomeInfo } from './homeInfo.interface';
 
@@ -63,7 +63,7 @@ import { HomeInfoModel, IHomeInfo } from './homeInfo.interface';
 
 const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
   {
-    homeOwnerId: { type: String, required: true },
+    homeOwnerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     homeStatus: {
       type: String,
       enum: statusEnaum,

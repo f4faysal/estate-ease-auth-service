@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import httpStatus from 'http-status';
-import { SortOrder } from 'mongoose';
+import { ObjectId, SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
@@ -193,9 +193,9 @@ import { HomeInfo } from './homeInfo.model';
 
 const insertInToHomeInfo = async (
   payload: IHomeInfo,
-  userId: string
+  userId: ObjectId
 ): Promise<IHomeInfo> => {
-  const isUserExist = await User.findOne({ id: userId });
+  const isUserExist = await User.findOne({ _id: userId });
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found !');
@@ -247,7 +247,7 @@ const getAllHomeInfo = async (
   const { searchTerm, ...filtersData } = filters;
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
-  console.log(filtersData, searchTerm);
+
   const andConditions = [];
 
   // Search needs $or for searching in specified fields
@@ -291,8 +291,6 @@ const getAllHomeInfo = async (
       })),
     });
   }
-
-  console.log(andConditions);
   // Dynamic sort needs  fields to  do sorting
   const sortConditions: { [key: string]: SortOrder } = {};
   if (sortBy && sortOrder) {
@@ -305,6 +303,10 @@ const getAllHomeInfo = async (
 
   const result = await HomeInfo.find(whereConditions)
     .populate('homeOwnerId')
+    .populate({
+      path: 'homeOwnerId.homeOwner',
+      model: 'HomeOwner',
+    })
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);

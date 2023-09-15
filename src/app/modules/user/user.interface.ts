@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { Model, Types } from 'mongoose';
+import { Model, ObjectId, Types } from 'mongoose';
 
 export type IUser = {
+  _id?: ObjectId;
   id: string;
   role: 'Admin' | 'RentUser' | 'HomeOwner';
   password: string;

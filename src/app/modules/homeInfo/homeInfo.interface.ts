@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 
 export type IHomeFeatures = {
   hasGarden?: boolean;
@@ -79,7 +79,7 @@ export type IQuestion = {
 };
 
 export type IHomeInfo = {
-  homeOwnerId: string;
+  homeOwnerId: ObjectId;
   homeStatus:
     | 'available'
     | 'rentedOut'

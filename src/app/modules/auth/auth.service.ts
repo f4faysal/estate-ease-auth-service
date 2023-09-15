@@ -29,7 +29,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
 
   //!create access token & refresh token
 
-  const { id: userId, role, needsPasswordChange } = isUserExist;
+  const { _id: userId, role, needsPasswordChange }: any = isUserExist;
   const accessToken = jwtHelpers.createToken(
     { userId, role },
     config.jwt.secret as Secret,
@@ -137,7 +137,11 @@ const changePassword = async (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const myProfile = async (user: JwtPayload | null): Promise<any> => {
-  const result = await User.find({ id: user?.userId });
+  const result = await User.find({ _id: user?.userId }).populate([
+    'homeOwner',
+    'admin',
+    'rentUser',
+  ]);
 
   return result;
 };
