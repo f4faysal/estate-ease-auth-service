@@ -110,7 +110,7 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
     },
     homeReview: {
       rating: { type: Number, required: true },
-      review: [{ type: String }],
+      review: { type: [String], default: [] },
     },
     ownerBehaviourCommonQuestion: [],
   },
