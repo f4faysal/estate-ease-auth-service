@@ -68,9 +68,14 @@ export type IHomeDetails = {
   features: IHomeFeatures;
 };
 
+export type IReviewer = {
+  review: string;
+  reviewer: ObjectId | string;
+};
+
 export type IReview = {
   rating: number;
-  review: string[];
+  review: IReviewer[];
 };
 
 export type IQuestion = {

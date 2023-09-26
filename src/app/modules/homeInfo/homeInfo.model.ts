@@ -108,9 +108,13 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
         hasAirConditioning: { type: Boolean },
       },
     },
+
     homeReview: {
       rating: { type: Number, required: true },
-      review: { type: [String], default: [] },
+      review: {
+        review: { type: String },
+        reviewer: { type: Types.ObjectId, ref: 'User' },
+      },
     },
     ownerBehaviourCommonQuestion: [],
   },

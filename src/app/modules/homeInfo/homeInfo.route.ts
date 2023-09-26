@@ -28,6 +28,12 @@ router.post(
   auth(ENUM_USER_ROLE.HOMEOWNER),
   HomeInfoController.insertInToHomeInfo
 );
+router.post(
+  '/review/:id',
+  auth(ENUM_USER_ROLE.RENTUSER),
+  HomeInfoController.createReview
+);
+
 router.get('/', HomeInfoController.getAllHomeInfo);
 
 export const HomeInfoRoutes = router;

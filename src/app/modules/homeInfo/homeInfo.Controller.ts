@@ -64,6 +64,20 @@ const insertInToHomeInfo = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const createReview = catchAsync(async (req: Request, res: Response) => {
+  const homeInfoID = req.params.id;
+  const review = req.body.review;
+  const { userId }: any = req.user;
+  console.log(userId);
+  const result = await HomeInfoService.createReview(homeInfoID, review, userId);
+
+  sendResponce(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Home retrieved successfully !',
+    data: result,
+  });
+});
 
 const getAllHomeInfo = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, HomeFilterableFields);
@@ -84,4 +98,5 @@ const getAllHomeInfo = catchAsync(async (req: Request, res: Response) => {
 export const HomeInfoController = {
   insertInToHomeInfo,
   getAllHomeInfo,
+  createReview,
 };

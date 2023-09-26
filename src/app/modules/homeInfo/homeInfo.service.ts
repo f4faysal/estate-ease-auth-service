@@ -240,6 +240,23 @@ const insertInToHomeInfo = async (
   return result;
 };
 
+const createReview = async (
+  homeInfoID: string,
+  reviewText: string,
+  userId: string
+): Promise<any> => {
+  const reviewData = {
+    review: reviewText, // Assign the review text
+    reviewer: userId, // Assign the user ID as the reviewer
+  };
+
+  const result = await HomeInfo.updateOne(
+    { _id: homeInfoID },
+    { $push: { 'homeReview.review': reviewData } }
+  );
+  return result;
+};
+
 const getAllHomeInfo = async (
   filters: IHomeFilters,
   paginationOptions: IPaginationOptions
@@ -386,4 +403,5 @@ const getAllHomeInfo = async (
 export const HomeInfoService = {
   insertInToHomeInfo,
   getAllHomeInfo,
+  createReview,
 };
