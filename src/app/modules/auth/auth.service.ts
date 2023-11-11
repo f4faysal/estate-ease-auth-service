@@ -13,7 +13,6 @@ import {
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { id, password } = payload;
-
   const isUserExist = await User.isUserExist(id);
 
   if (!isUserExist) {
@@ -137,7 +136,7 @@ const changePassword = async (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const myProfile = async (user: JwtPayload | null): Promise<any> => {
-  const result = await User.find({ _id: user?.userId }).populate([
+  const result = await User.findOne({ _id: user?.userId }).populate([
     'homeOwner',
     'admin',
     'rentUser',

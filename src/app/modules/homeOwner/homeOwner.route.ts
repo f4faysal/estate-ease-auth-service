@@ -9,12 +9,20 @@ const router = express.Router();
 
 router.get(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.HOMEOWNER),
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.HOMEOWNER,
+    ENUM_USER_ROLE.SUPER_ADMIN
+  ),
   HomeOwnerController.getSingleHomeOwner
 );
 router.get(
   '/',
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.HOMEOWNER),
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.HOMEOWNER,
+    ENUM_USER_ROLE.SUPER_ADMIN
+  ),
   HomeOwnerController.getAllHomeOwners
 );
 router.delete(
@@ -25,7 +33,11 @@ router.delete(
 router.patch(
   '/:id',
   validateRequest(HomeOwnerValidation.updateHomeOwnerZodSchema),
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.HOMEOWNER),
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.HOMEOWNER,
+    ENUM_USER_ROLE.SUPER_ADMIN
+  ),
   HomeOwnerController.updateHomeOwner
 );
 

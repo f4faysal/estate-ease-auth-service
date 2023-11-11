@@ -14,6 +14,12 @@ export type IUser = {
   homeOwner?: Types.ObjectId;
 };
 
+export type ISingUpUserResponse = {
+  accessToken: string;
+  refreshToken?: string;
+  newUserAllData: IUser | null;
+};
+
 // export type IUserMethods = {
 //   isUserExist(id: string): Promise<Partial<IUser> | null>;
 //   isPasswordMatched(

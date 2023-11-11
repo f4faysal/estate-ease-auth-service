@@ -1,12 +1,15 @@
 import httpStatus from 'http-status';
+import { Secret } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import config from '../../../config/index';
 import ApiError from '../../../errors/ApiError';
+import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import { Admin } from '../admin/admin.model';
+
 import { HomeOwner } from '../homeOwner/homeOwner.model';
 import { IRentUser } from '../rentUser/rentUser.interface';
 import { RentUser } from '../rentUser/rentUser.model';
-import { IUser } from './user.interface';
+import { ISingUpUserResponse, IUser } from './user.interface';
 import { User } from './user.model';
 import {
   generateAdminId,
@@ -17,7 +20,7 @@ import {
 const createRentUser = async (
   rentUser: IRentUser,
   user: IUser
-): Promise<IUser | null> => {
+): Promise<ISingUpUserResponse> => {
   // default password
   if (!user.password) {
     user.password = config.default_rentuser_pass as string;
@@ -26,7 +29,7 @@ const createRentUser = async (
   // set role
   user.role = 'RentUser';
 
-  // generate student id
+  // generate user id
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
@@ -34,15 +37,14 @@ const createRentUser = async (
     const id = await generateRentUserId();
     user.id = id;
     rentUser.id = id;
-    console.log('===>', id);
     //array
     const newRentUser = await RentUser.create([rentUser], { session });
 
     if (!newRentUser.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create student');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create User');
     }
     console.log('---->', newRentUser);
-    //set student -->  _id into user.student
+    //set newRentUser -->  _id into user
     user.rentUser = newRentUser[0]._id;
 
     const newUser = await User.create([user], { session });
@@ -66,7 +68,20 @@ const createRentUser = async (
     );
   }
 
-  return newUserAllData;
+  const { _id: userId, role }: any = newUserAllData;
+  const accessToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
+  );
+
+  const refreshToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
+  );
+
+  return { newUserAllData, accessToken, refreshToken };
 };
 
 const createHomeOwner = async (
