@@ -87,7 +87,7 @@ const createRentUser = async (
 const createHomeOwner = async (
   homeOwner: IUser,
   user: IUser
-): Promise<IUser | null> => {
+): Promise<ISingUpUserResponse> => {
   // default password
   if (!user.password) {
     user.password = config.default_homeuwner_pass as string;
@@ -149,7 +149,20 @@ const createHomeOwner = async (
     );
   }
 
-  return newUserAllData;
+  const { _id: userId, role }: any = newUserAllData;
+  const accessToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
+  );
+
+  const refreshToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
+  );
+
+  return { newUserAllData, accessToken, refreshToken };
 };
 
 const createAdmin = async (
