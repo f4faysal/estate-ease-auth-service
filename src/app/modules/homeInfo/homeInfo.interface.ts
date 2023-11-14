@@ -6,7 +6,6 @@ export type IHomeFeatures = {
   hasInternet?: boolean;
   hasSecurity?: boolean;
   hasCleaning?: boolean;
-  hasAirConditioning?: boolean;
 };
 
 export type IHomeSige = {

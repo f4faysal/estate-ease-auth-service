@@ -14,13 +14,10 @@ export const homeSearchableFields = [
 ];
 
 export const locationsEnaum = [
-  'Demra',
   'Dhaka Cantt.',
-  'Dhamrai',
+  'Baridhara',
   'Dhanmondi',
   'Gulshan',
-  'Jatrabari',
-  'Joypara',
   'Keraniganj',
   'Khilgaon',
   'Khilkhet',
@@ -28,15 +25,8 @@ export const locationsEnaum = [
   'Mirpur',
   'Mohammadpur',
   'Motijheel',
-  'Nawabganj',
   'New Market',
-  'Palton',
   'Ramna',
-  'Sabujbag',
-  'Savar',
-  'Sutrapur',
-  'Tejgaon',
-  'Tejgaon Industrial Area',
   'Uttara',
 ];
 export const residential = [
@@ -49,6 +39,7 @@ export const residential = [
   'Penthouse',
   'Studio',
 ];
+
 export const statusEnaum = [
   'available',
   'rentedOut',

@@ -14,18 +14,18 @@ import { HomeInfoModel, IHomeInfo } from './homeInfo.interface';
 
 // // Define the schema for IHomeSige
 // const HomeSizeSchema = new Schema<IHomeSige>({
-//   numberOfRooms: { type: Number },
-//   numberOfBathrooms: { type: Number },
-//   numberOfBalconies: { type: Number },
-//   numberOfWindos: { type: Number },
-//   numberOfFloors: { type: Number },
+//   StringOfRooms: { type: String },
+//   StringOfBathrooms: { type: String },
+//   StringOfBalconies: { type: String },
+//   StringOfWindos: { type: String },
+//   StringOfFloors: { type: String },
 //   sizePerUnit: { type: String },
-//   totalSQFT: { type: Number },
+//   totalSQFT: { type: String },
 // });
 
 // // Define the schema for IReview
 // const ReviewSchema = new Schema<IReview>({
-//   rating: { type: Number, required: true },
+//   rating: { type: String, required: true },
 //   review: [{ type: String }],
 // });
 
@@ -40,13 +40,13 @@ import { HomeInfoModel, IHomeInfo } from './homeInfo.interface';
 //   title: { type: String, required: true },
 //   tageLine: { type: String, required: true },
 //   tages: [{ type: String }],
-//   price: { type: Number, required: true },
-//   offerPrice: { type: Number },
+//   price: { type: String, required: true },
+//   offerPrice: { type: String },
 //   address: { type: String, required: true },
 //   description: { type: String, required: true },
 //   images: [{ type: String }],
 //   homeType: { type: String, required: true },
-//   homeSize: { type: Number, required: true },
+//   homeSize: { type: String, required: true },
 //   Location: {
 //     type: String,
 //     enum: [
@@ -73,13 +73,13 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
       title: { type: String, required: true },
       tageLine: { type: String, required: true },
       tages: [{ type: String }],
-      price: { type: Number, required: true },
-      offerPrice: { type: Number },
+      price: { type: String, required: true },
+      offerPrice: { type: String },
       address: { type: String, required: true },
       description: { type: String, required: true },
       images: [{ type: String }],
       homeType: { type: String, required: true },
-      homeSize: { type: Number, required: true },
+      homeSize: { type: String, required: true },
       residential: {
         type: String,
         enum: residential,
@@ -91,13 +91,13 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
         required: true,
       },
       homeSizeDetails: {
-        numberOfRooms: { type: Number },
-        numberOfBathrooms: { type: Number },
-        numberOfBalconies: { type: Number },
-        numberOfWindos: { type: Number },
-        numberOfFloors: { type: Number },
+        StringOfRooms: { type: String },
+        StringOfBathrooms: { type: String },
+        StringOfBalconies: { type: String },
+        StringOfWindos: { type: String },
+        StringOfFloors: { type: String },
         sizePerUnit: { type: String },
-        totalSQFT: { type: Number },
+        totalSQFT: { type: String },
       },
       features: {
         hasGarden: { type: Boolean },
@@ -105,12 +105,11 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
         hasInternet: { type: Boolean },
         hasSecurity: { type: Boolean },
         hasCleaning: { type: Boolean },
-        hasAirConditioning: { type: Boolean },
       },
     },
 
     homeReview: {
-      rating: { type: Number, required: true },
+      rating: { type: String, required: true },
       review: {
         review: { type: String },
         reviewer: { type: Types.ObjectId, ref: 'User' },
