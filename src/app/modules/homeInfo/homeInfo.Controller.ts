@@ -56,7 +56,10 @@ const insertInToHomeInfo = catchAsync(async (req: Request, res: Response) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { userId }: any = req.user;
   const { ...HomeInfoData } = req.body;
-  const result = await HomeInfoService.insertInToHomeInfo(HomeInfoData, userId);
+  console.log(HomeInfoData, 'HomeInfoData');
+  console.log(req.body, 'Body Propaty');
+
+  const result = await HomeInfoService.insertInToHomeInfo(req.body, userId);
   sendResponce(res, {
     statusCode: httpStatus.OK,
     success: true,

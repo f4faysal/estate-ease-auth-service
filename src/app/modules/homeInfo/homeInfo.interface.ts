@@ -9,25 +9,28 @@ export type IHomeFeatures = {
 };
 
 export type IHomeSige = {
-  numberOfRooms?: number;
-  numberOfBathrooms?: number;
-  numberOfBalconies?: number;
-  numberOfWindos?: number;
-  numberOfFloors?: number;
+  numberOfRooms?: string;
+  numberOfBathrooms?: string;
+  numberOfBalconies?: string;
+  numberOfWindos?: string;
+  numberOfFloors?: string;
   sizePerUnit?: string;
-  totalSQFT?: number;
+  totalSQFT?: string;
+};
+export type Images = {
+  url: string;
 };
 
 export type IHomeDetails = {
   title: string;
   tageLine: string;
   tages?: string[];
-  price: number;
-  offerPrice?: number;
+  price: string;
+  offerPrice?: string;
   address: string;
   description: string;
-  images: string[];
-  homeSize: number;
+  images: Images[];
+  homeSize: string;
   homeType: string;
   residential:
     | 'Apartment'
@@ -101,6 +104,6 @@ export type IHomeFilters = {
   searchTerm?: string;
   location?: string;
   residential?: string;
-  price?: number;
-  homeSize?: number;
+  price?: string;
+  homeSize?: string;
 };

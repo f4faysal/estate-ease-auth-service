@@ -197,6 +197,8 @@ const insertInToHomeInfo = async (
 ): Promise<IHomeInfo> => {
   const isUserExist = await User.findOne({ _id: userId });
 
+  console.log(payload);
+
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found !');
   }
@@ -210,9 +212,9 @@ const insertInToHomeInfo = async (
 
   payload.homeOwnerId = userId;
   payload.homeStatus = 'pending';
-  payload.home.homeSize = payload.home.homeSizeDetails.totalSQFT
-    ? payload.home.homeSizeDetails.totalSQFT
-    : 0;
+
+  payload.home.homeSize = payload.home.homeSizeDetails.totalSQFT || '0';
+
   payload.ownerBehaviourCommonQuestion = [
     {
       question: 'Owner behavior?',

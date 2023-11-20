@@ -69,6 +69,7 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
       enum: statusEnaum,
       required: true,
     },
+
     home: {
       title: { type: String, required: true },
       tageLine: { type: String, required: true },
@@ -77,7 +78,9 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
       offerPrice: { type: String },
       address: { type: String, required: true },
       description: { type: String, required: true },
-      images: [{ type: String }],
+      images: {
+        type: [{ url: { type: String } }],
+      },
       homeType: { type: String, required: true },
       homeSize: { type: String, required: true },
       residential: {
@@ -91,11 +94,11 @@ const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
         required: true,
       },
       homeSizeDetails: {
-        StringOfRooms: { type: String },
-        StringOfBathrooms: { type: String },
-        StringOfBalconies: { type: String },
-        StringOfWindos: { type: String },
-        StringOfFloors: { type: String },
+        numberOfRooms: { type: String },
+        numberOfBathrooms: { type: String },
+        numberOfBalconies: { type: String },
+        numberOfWindos: { type: String },
+        numberOfFloors: { type: String },
         sizePerUnit: { type: String },
         totalSQFT: { type: String },
       },
