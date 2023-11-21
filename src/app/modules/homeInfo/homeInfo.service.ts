@@ -402,8 +402,20 @@ const getAllHomeInfo = async (
 //     };
 //   };
 
+const getSingleHomeInfo = async (id: string): Promise<IHomeInfo | null> => {
+  const result = await HomeInfo.findOne({ _id: id })
+    .populate('homeOwnerId')
+    .populate({
+      path: 'homeOwnerId.homeOwner',
+      model: 'HomeOwner',
+    });
+
+  return result;
+};
+
 export const HomeInfoService = {
   insertInToHomeInfo,
   getAllHomeInfo,
   createReview,
+  getSingleHomeInfo,
 };

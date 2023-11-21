@@ -55,9 +55,7 @@ import { HomeInfoService } from './homeInfo.service';
 const insertInToHomeInfo = catchAsync(async (req: Request, res: Response) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { userId }: any = req.user;
-  const { ...HomeInfoData } = req.body;
-  console.log(HomeInfoData, 'HomeInfoData');
-  console.log(req.body, 'Body Propaty');
+  // const { ...HomeInfoData } = req.body;
 
   const result = await HomeInfoService.insertInToHomeInfo(req.body, userId);
   sendResponce(res, {
@@ -97,9 +95,22 @@ const getAllHomeInfo = catchAsync(async (req: Request, res: Response) => {
     data: result.data,
   });
 });
+const getSingleHomeInfo = catchAsync(async (req: Request, res: Response) => {
+  // const filters = pick(req.query, HomeFilterableFields);
+  // const paginationOptions = pick(req.query, paginationFields);
+  const id = req.params.id;
+  const result = await HomeInfoService.getSingleHomeInfo(id);
+  sendResponce<IHomeInfo>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'HomeInfo retrieved successfully !',
+    data: result,
+  });
+});
 
 export const HomeInfoController = {
   insertInToHomeInfo,
+  getSingleHomeInfo,
   getAllHomeInfo,
   createReview,
 };
