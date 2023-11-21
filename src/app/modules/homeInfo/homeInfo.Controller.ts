@@ -96,8 +96,6 @@ const getAllHomeInfo = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getSingleHomeInfo = catchAsync(async (req: Request, res: Response) => {
-  // const filters = pick(req.query, HomeFilterableFields);
-  // const paginationOptions = pick(req.query, paginationFields);
   const id = req.params.id;
   const result = await HomeInfoService.getSingleHomeInfo(id);
   sendResponce<IHomeInfo>(res, {
