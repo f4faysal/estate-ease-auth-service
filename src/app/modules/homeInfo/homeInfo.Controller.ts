@@ -107,10 +107,23 @@ const getSingleHomeInfo = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getMyProperty = catchAsync(async (req: Request, res: Response) => {
+  // const filters = pick(req.query, HomeFilterableFields);
+  // const paginationOptions = pick(req.query, paginationFields);
+  const { userId }: any = req.user;
+  const result = await HomeInfoService.getMyProperty(userId);
+  sendResponce<IHomeInfo[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'HomeInfo retrieved successfully !',
+    data: result,
+  });
+});
 
 export const HomeInfoController = {
   insertInToHomeInfo,
   getSingleHomeInfo,
   getAllHomeInfo,
   createReview,
+  getMyProperty,
 };

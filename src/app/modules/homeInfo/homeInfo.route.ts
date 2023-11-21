@@ -36,6 +36,11 @@ router.post(
 
 router.get('/', HomeInfoController.getAllHomeInfo);
 router.get('/:id', HomeInfoController.getSingleHomeInfo);
+router.get(
+  '/my-property',
+  auth(ENUM_USER_ROLE.HOMEOWNER),
+  HomeInfoController.getMyProperty
+);
 router.get('/review/:id');
 
 export const HomeInfoRoutes = router;

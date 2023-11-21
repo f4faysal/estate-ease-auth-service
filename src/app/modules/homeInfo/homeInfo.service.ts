@@ -171,10 +171,21 @@ const getSingleHomeInfo = async (id: string): Promise<IHomeInfo | null> => {
 
   return result;
 };
+const getMyProperty = async (userId: string): Promise<IHomeInfo[] | null> => {
+  const result = await HomeInfo.find({ homeOwnerId: userId })
+    .populate('homeOwnerId')
+    .populate({
+      path: 'homeOwnerId.homeOwner',
+      model: 'HomeOwner',
+    });
+
+  return result;
+};
 
 export const HomeInfoService = {
   insertInToHomeInfo,
   getAllHomeInfo,
   createReview,
+  getMyProperty,
   getSingleHomeInfo,
 };
