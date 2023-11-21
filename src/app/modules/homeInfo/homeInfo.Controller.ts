@@ -115,7 +115,7 @@ const getMyProperty = catchAsync(async (req: Request, res: Response) => {
   sendResponce<IHomeInfo[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'HomeInfo retrieved successfully !',
+    message: 'my property retrieved successfully !',
     data: result,
   });
 });
