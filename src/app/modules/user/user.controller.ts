@@ -24,7 +24,7 @@ const createHomeOwner: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { homeOwner, ...userData } = req.body;
     const result = await UserService.createHomeOwner(homeOwner, userData);
-    sendResponse<IUser>(res, {
+    sendResponse<any>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'user created successfully!',
