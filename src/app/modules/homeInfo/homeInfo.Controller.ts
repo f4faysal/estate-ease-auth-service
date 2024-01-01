@@ -75,10 +75,22 @@ const getMyProperty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteHomeInfo = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await HomeInfoService.deleteHomeInfo(id);
+  sendResponce<IHomeInfo>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'HomeInfo deleted successfully !',
+    data: result,
+  });
+});
+
 export const HomeInfoController = {
   insertInToHomeInfo,
   getSingleHomeInfo,
   getAllHomeInfo,
   createReview,
   getMyProperty,
+  deleteHomeInfo,
 };

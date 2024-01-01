@@ -46,8 +46,33 @@ const createAdmin: RequestHandler = catchAsync(
   }
 );
 
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  const result = await UserService.updateUser(id, data);
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated successfully!',
+    data: result,
+  });
+});
+
+const getUsers = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserService.getUsers();
+  sendResponse<IUser | any>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated successfully!',
+    data: result,
+  });
+});
+
 export const UserController = {
   createRentUser,
   createHomeOwner,
   createAdmin,
+  updateUser,
+  getUsers,
 };

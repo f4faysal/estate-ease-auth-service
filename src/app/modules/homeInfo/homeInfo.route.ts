@@ -26,4 +26,10 @@ router.get(
 );
 router.get('/review/:id');
 
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.HOMEOWNER),
+  HomeInfoController.deleteHomeInfo
+);
+
 export const HomeInfoRoutes = router;

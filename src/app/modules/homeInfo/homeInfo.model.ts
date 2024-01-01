@@ -5,7 +5,10 @@ import { HomeInfoModel, IHomeInfo } from './homeInfo.interface';
 
 const HomeSchema = new Schema<IHomeInfo, HomeInfoModel>(
   {
-    homeOwnerId: { type: Types.ObjectId, ref: 'User' },
+    homeOwnerId: {
+      type: Types.ObjectId,
+      ref: 'User',
+    },
     homeStatus: {
       type: String,
       enum: statusEnaum,

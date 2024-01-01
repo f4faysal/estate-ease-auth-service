@@ -220,8 +220,22 @@ const createAdmin = async (
   return newUserAllData;
 };
 
+const updateUser = async (id: string, user: IUser): Promise<IUser | null> => {
+  const result = await User.findOneAndUpdate({ id }, user, { new: true });
+
+  return result;
+};
+
+const getUsers = async (): Promise<IUser[] | null> => {
+  const result = await User.find({});
+
+  return result;
+};
+
 export const UserService = {
   createRentUser,
   createHomeOwner,
   createAdmin,
+  updateUser,
+  getUsers,
 };
