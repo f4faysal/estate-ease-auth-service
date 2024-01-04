@@ -10,10 +10,10 @@ const app: Application = express();
 app.use(
   cors({
     origin: [
-      'https://estate-ease-client.vercel.app',
+      'https://estateease.vercel.app',
+      'https://estateease-dashboard.vercel.app',
       'http://localhost:3000',
       'http://localhost:3001',
-      'http://localhost:3002',
     ],
     credentials: true,
   })
